@@ -1,0 +1,32 @@
+@(title: String)(content: Html)
+
+@import util.{div, css, script, routedCss}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>@title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            @css(
+                "//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css",
+                "//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"
+            )
+            @routedCss(
+                routes.Assets.at("css/custom.css"),
+                routes.Assets.at("css/footer.css")
+            )
+            @script("//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
+    </head>
+    <body>
+        <div id="wrap">
+            <section>
+                @content
+            </section>
+            <div id="push"></div>
+        </div>
+        <div id="footer">
+            @div("container") {
+                <p class="muted credit pull-right">Developed by <a href="http://github.com/malliina">Michael Skogberg</a>.</p>
+            }
+        </div>
+    </body>
+</html>

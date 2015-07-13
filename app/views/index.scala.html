@@ -1,6 +1,34 @@
-@(msg: String)
-<html>
-    <body>
-        <h1>@msg</h1>
-    </body>
-</html>
+@import com.mle.playslick.db.MyRow
+@(rows: Seq[MyRow], addForm: Form[String])(implicit flash: Flash)
+@import bs.{headerRow, rowColumn12}
+
+@tabs("home") {
+    @headerRow("Table")
+    @flash.get(Home.FEEDBACK).map { feedback =>
+        @flash.get(Home.SEVERITY).map { severity =>
+            <div class="lead alert alert-@severity" role="alert">@feedback</div>
+        }
+    }
+    @rowColumn12 {
+        <table class="table table-striped table-hover table-responsive">
+            <thead>
+                <tr><th>ID</th><th>Text</th><th>Remove</th></tr>
+            </thead>
+            <tbody>
+            @rows.map { row =>
+                <tr><td>@row.id</td><td>@row.name</td><td><form action="@routes.Home.remove(row.id)" method="POST"><button class="btn btn-xs btn-danger">
+                    Delete</button></form></td></tr>
+            }
+            </tbody>
+        </table>
+    }
+    @rowColumn12 {
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="@addForm(Home.NAME).id">Text</label>
+                <input type="text" class="form-control" id="@addForm(Home.NAME).id" name="@addForm(Home.NAME).name" placeholder="abra kadabra">
+            </div>
+            <button type="submit" class="btn btn-default">Add</button>
+        </form>
+    }
+}

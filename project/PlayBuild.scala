@@ -13,8 +13,11 @@ object PlayBuild extends Build {
     fork in Test := true,
     updateOptions := updateOptions.value.withCachedResolution(true),
     libraryDependencies ++= Seq(
-      "com.github.malliina" %% "play-base" % "0.5.0"),
-    exportJars := true,
+      "com.github.malliina" %% "play-base" % "0.5.0",
+      "com.h2database" % "h2" % "1.4.187",
+      "com.typesafe.slick" %% "slick" % "3.0.0",
+      "org.slf4j" % "slf4j-nop" % "1.6.4"
+    ),
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
     scalacOptions ++= Seq(
       "-target:jvm-1.8",

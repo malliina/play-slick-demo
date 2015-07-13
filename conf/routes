@@ -1,2 +1,6 @@
-GET        /                    controllers.Home.index
-GET        /assets/*file        controllers.Assets.at(path = "/public", file)
+GET         /                                controllers.Home.allRows
+GET         /items                           controllers.Home.allRows
+GET         /error                           controllers.Home.error
+POST        /items                           controllers.Home.add
+POST        /items/delete/$id<[0-9]+>        controllers.Home.remove(id: Int)
+GET         /assets/*file                    controllers.Assets.at(path = "/public", file)
