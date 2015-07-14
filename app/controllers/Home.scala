@@ -34,7 +34,7 @@ object Home extends Controller {
 
   def add = action(implicit req => {
     form.bindFromRequest().fold(
-      errors => Future.successful(redir("Invalid input", DANGER)),
+      errors => dbRead(rows => BadRequest(html.index(rows, errors))),
       ok => dbResult(db.add(MyRow(1, ok)))(
         _ => redir("Added item", SUCCESS),
         redir("Unable to add item", DANGER)
@@ -48,6 +48,10 @@ object Home extends Controller {
       redir(s"Unable to delete item $row", DANGER)
     )
   })
+
+  private def dbRead(rows: Seq[MyRow] => Result) = dbResult(db.rows)(
+    rows,
+    Redirect(routes.Home.error()).flashing(FEEDBACK -> "Unable to read database", SEVERITY -> DANGER))
 
   protected def okIndex(rows: Seq[MyRow])(implicit req: RequestHeader) = Ok(html.index(rows, form))
 
